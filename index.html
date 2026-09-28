@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عمر رامي عصام | صانع الألعاب #8</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green: #00ff87;
+  --green-dark: #00cc6a;
+  --dark: #0a0e0d;
+  --dark-2: #111816;
+  --dark-3: #1a2420;
+  --text: #e8f0ec;
+  --muted: #8a9b93;
+  --gold: #ffd700;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+
+/* Noise + Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(0,255,135,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0,255,135,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Navbar */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  transition: 0.4s;
+  backdrop-filter: blur(0px);
+}
+
+nav.scrolled {
+  background: rgba(10,14,13,0.85);
+  backdrop-filter: blur(20px);
+  padding: 14px 5%;
+  border-bottom: 1px solid rgba(0,255,135,0.1);
+}
+
+.logo {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+}
+
+.logo span { color: var(--green); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px; right: 0;
+  width: 0; height: 2px;
+  background: var(--green);
+  transition: 0.3s;
+}
+
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { width: 100%; }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 5% 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: rgba(0,255,135,0.08);
+  border: 1px solid rgba(0,255,135,0.25);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: var(--green);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.pulse-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,135,0.7); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 10px rgba(0,255,135,0); }
+}
+
+.hero h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.hero h1 .accent {
+  color: var(--green);
+  position: relative;
+  display: inline-block;
+}
+
+.hero h1 .accent::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 0; left: 0;
+  height: 12px;
+  background: rgba(0,255,135,0.15);
+  z-index: -1;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 540px;
+  margin-bottom: 36px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 32px;
+  border-radius: 50px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: var(--dark);
+  box-shadow: 0 10px 40px rgba(0,255,135,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(0,255,135,0.45);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn-ghost:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* Hero Visual */
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+
+.jersey-number {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(18rem, 30vw, 30rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(180deg, rgba(0,255,135,0.15), rgba(0,255,135,0));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: absolute;
+  user-select: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.player-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0,255,135,0.1), rgba(0,255,135,0.02));
+  border: 1px solid rgba(0,255,135,0.2);
+  border-radius: 24px;
+  padding: 28px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+  width: 100%;
+  max-width: 340px;
+}
+
+.player-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.player-card-header .name {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.player-card-header .pos {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  background: rgba(0,255,135,0.15);
+  color: var(--green);
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.player-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.player-stat-row .mini-stat {
+  text-align: center;
+  padding: 12px 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.mini-stat .num {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--green);
+  display: block;
+  line-height: 1;
+}
+
+.mini-stat .lbl {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 6px;
+  display: block;
+}
+
+/* Sections */
+section { padding: 100px 5%; position: relative; z-index: 2; }
+
+.section-head { text-align: center; margin-bottom: 70px; }
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--green);
+  letter-spacing: 3px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.section-title span { color: var(--green); }
+
+/* Stats Big */
+.stats-section {
+  background: linear-gradient(180deg, transparent, rgba(0,255,135,0.03), transparent);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stat-box {
+  background: var(--dark-2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-box::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  transform: translateX(100%);
+  transition: 0.5s;
+}
+
+.stat-box:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0,255,135,0.3);
+  box-shadow: 0 20px 60px rgba(0,255,135,0.1);
+}
+
+.stat-box:hover::before { transform: translateX(0); }
+
+.stat-box .number {
+  font-family: 'Cairo', sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--green);
+  line-height: 1;
+  display: block;
+}
+
+.stat-box .label {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+/* Story */
+.story-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.story-chapter {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 40px;
+  margin-bottom: 80px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s ease;
+}
+
+.story-chapter.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-num {
+  font-family: 'Cairo', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(0,255,135,0.4);
+  line-height: 1;
+  padding-top: 6px;
+}
+
+.chapter-content h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.chapter-content h3::before {
+  content: '';
+  display: inline-block;
+  width: 30px; height: 3px;
+  background: var(--green);
+  margin-left: 14px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+.chapter-content p {
+  color: #b8c4bd;
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  line-height: 1.9;
+}
+
+.chapter-content strong { color: var(--green); font-weight: 600; }
+
+.quote-block {
+  border-right: 3px solid var(--green);
+  padding: 20px 24px;
+  background: rgba(0,255,135,0.04);
+  border-radius: 0 12px 12px 0;
+  margin: 24px 0;
+  font-style: italic;
+  color: #d8e0db;
+}
+
+/* Attributes */
+.attrs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.attr-card {
+  background: var(--dark-2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 30px;
+  transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.attr-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(0,255,135,0.15), transparent 70%);
+  border-radius: 50%;
+  transition: 0.5s;
+}
+
+.attr-card:hover {
+  border-color: rgba(0,255,135,0.3);
+  transform: translateY(-6px);
+}
+
+.attr-card:hover::after {
+  transform: scale(1.5);
+}
+
+.attr-icon {
+  width: 52px; height: 52px;
+  background: rgba(0,255,135,0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0,255,135,0.2);
+}
+
+.attr-card h4 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.attr-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* Info Table */
+.info-grid {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.info-item {
+  background: var(--dark-2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.info-item:hover {
+  border-color: rgba(0,255,135,0.3);
+  background: rgba(0,255,135,0.03);
+}
+
+.info-item .k {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.info-item .v {
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* Goal section */
+.goal-section {
+  background: radial-gradient(ellipse at center, rgba(0,255,135,0.08) 0%, transparent 60%);
+  text-align: center;
+  padding: 140px 5%;
+}
+
+.goal-badge {
+  display: inline-block;
+  padding: 14px 32px;
+  background: rgba(0,255,135,0.1);
+  border: 1px solid rgba(0,255,135,0.3);
+  border-radius: 50px;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+.goal-title {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 24px;
+  background: linear-gradient(180deg, #fff 30%, var(--green) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.goal-desc {
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+  padding: 60px 5% 40px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-name {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.footer-name span { color: var(--green); }
+
+.footer-quote {
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+.footer-meta {
+  color: #4a5a52;
+  font-size: 0.85rem;
+}
+
+/* Loader */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--dark);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s, visibility 0.8s;
+}
+
+.loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-num {
+  font-family: 'Cairo', sans-serif;
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--green);
+  line-height: 1;
+  animation: pulse 1.5s infinite;
+}
+
+.loader-text {
+  color: var(--muted);
+  margin-top: 20px;
+  letter-spacing: 6px;
+  font-size: 0.8rem;
+}
+
+.loader-bar {
+  width: 200px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  margin-top: 30px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loader-bar::after {
+  content: '';
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: var(--green);
+  animation: load 1.5s infinite;
+}
+
+@keyframes load {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-350%); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .hero-cta { justify-content: center; }
+  .hero-sub { margin-right: auto; margin-left: auto; }
+  .hero-visual { height: 380px; }
+  .nav-links { display: none; }
+  .story-chapter { grid-template-columns: 50px 1fr; gap: 20px; }
+  .chapter-num { font-size: 2rem; }
+  section { padding: 70px 5%; }
+  .goal-section { padding: 90px 5%; }
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ticker */
+.ticker {
+  overflow: hidden;
+  background: rgba(0,255,135,0.05);
+  border-top: 1px solid rgba(0,255,135,0.15);
+  border-bottom: 1px solid rgba(0,255,135,0.15);
+  padding: 18px 0;
+  white-space: nowrap;
+  position: relative;
+  z-index: 2;
+}
+
+.ticker-track {
+  display: inline-block;
+  animation: scroll 25s linear infinite;
+}
+
+.ticker-track span {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--muted);
+  margin: 0 40px;
+  letter-spacing: 2px;
+}
+
+.ticker-track span::before {
+  content: '◆';
+  color: var(--green);
+  margin-left: 40px;
+  font-size: 0.8rem;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-num">8</div>
+  <div class="loader-text">LOADING STORY</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="logo">OMAR <span>RAMY</span></div>
+  <ul class="nav-links">
+    <li><a href="#story">القصة</a></li>
+    <li><a href="#stats">الأرقام</a></li>
+    <li><a href="#skills">المهارات</a></li>
+    <li><a href="#goal">الهدف</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">
+        <span class="pulse-dot"></span>
+        صانع ألعاب · نادي المنتزه الإسكندرية
+      </div>
+      <h1>
+        عمر رامي<br>
+        <span class="accent">عصام</span>
+      </h1>
+      <p class="hero-sub">
+        لاعب وسط هجومي، عمري 15 سنة، أبحث عن اللحظة التي تصنع الفارق. قصتي ليست عن موهبة فقط، بل عن نظام يبقيني مستمرًا حتى في الأيام الصعبة.
+      </p>
+      <div class="hero-cta">
+        <a href="#story" class="btn btn-primary">اقرأ قصتي ←</a>
+        <a href="#stats" class="btn btn-ghost">شاهد أرقامي</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="jersey-number">8</div>
+      <div class="player-card">
+        <div class="player-card-header">
+          <span class="name">عمر رامي عصام</span>
+          <span class="pos">#8 · CAM</span>
+        </div>
+        <div class="player-stat-row">
+          <div class="mini-stat"><span class="num">20</span><span class="lbl">مباراة</span></div>
+          <div class="mini-stat"><span class="num">10</span><span class="lbl">هدف</span></div>
+          <div class="mini-stat"><span class="num">15</span><span class="lbl">أسيست</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>صانع ألعاب</span>
+    <span>تمرير حاسم</span>
+    <span>رؤية ملعب</span>
+    <span>تسديد</span>
+    <span>تحكم بالكرة</span>
+    <span>انضباط</span>
+    <span>طموح لا يتوقف</span>
+    <span>صانع ألعاب</span>
+    <span>تمرير حاسم</span>
+    <span>رؤية ملعب</span>
+    <span>تسديد</span>
+    <span>تحكم بالكرة</span>
+    <span>انضباط</span>
+    <span>طموح لا يتوقف</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section" id="stats">
+  <div class="section-head reveal">
+    <div class="section-tag">الأرقام لا تكذب</div>
+    <h2 class="section-title">حصيلة <span>الموسم</span></h2>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box reveal"><span class="number" data-count="20">0</span><div class="label">مباراة</div></div>
+    <div class="stat-box reveal"><span class="number" data-count="10">0</span><div class="label">هدف</div></div>
+    <div class="stat-box reveal"><span class="number" data-count="15">0</span><div class="label">تمريرة حاسمة</div></div>
+    <div class="stat-box reveal"><span class="number" data-count="8">0</span><div class="label">رقم القميص</div></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="section-head reveal">
+    <div class="section-tag">القصة الكاملة</div>
+    <h2 class="section-title">كيف بدأت <span>الرحلة</span>؟</h2>
+  </div>
+
+  <div class="story-wrap">
+    <div class="story-chapter reveal">
+      <div class="chapter-num">01</div>
+      <div class="chapter-content">
+        <h3>كيف بدأت؟</h3>
+        <p>بدأت قصتي مع كرة القدم من حب بسيط للعبة، لكن مع الوقت تحوّل هذا الحب إلى هدف حقيقي. لم أكن أريد أن أكون مجرد لاعب يستمتع بالكرة، بل أردت أن أبني نفسي كلاعب يستطيع أن يثبت نفسه داخل الملعب.</p>
+        <p>بدأت أتعلم وأتدرب وألاحظ نقاط قوتي وضعفي، ومع كل تمرين ومباراة كنت أفهم أن <strong>الموهبة وحدها لا تكفي</strong>. بدأت أهتم بالتمرير، الرؤية، التحكم بالكرة، التحرك بدون كرة، وصناعة الفرص — لأنني أطمح للعب في مركز وسط الملعب الهجومي وأن أكون لاعبًا يصنع الفارق بذكائه قبل أي شيء آخر.</p>
+        <div class="quote-block">
+          ومع الوقت، أصبحت كرة القدم بالنسبة لي أكثر من مجرد رياضة؛ أصبحت مشروعًا أعمل عليه كل يوم.
+        </div>
+      </div>
+    </div>
+
+    <div class="story-chapter reveal">
+      <div class="chapter-num">02</div>
+      <div class="chapter-content">
+        <h3>أصعب لحظة مرّت عليّ</h3>
+        <p>أصعب فترة مررت بها لم تكن مباراة خسرتها، بل فترة شعرت فيها أنني ابتعدت عن الطريق الذي رسمته لنفسي.</p>
+        <p>توقفت لفترة عن التدريب، ولم أكن ملتزمًا بالدراسة بالشكل الذي أريده، وشعرت أن أشياء كثيرة في حياتي بدأت تتراكم فوق بعضها. وقتها فهمت شيئًا مهمًا:</p>
+        <div class="quote-block">
+          أصعب منافس يمكن أن تواجهه ليس لاعبًا آخر، وإنما <strong>نفسك</strong> عندما تفقد الانضباط والاستمرارية.
+        </div>
+        <p>هذه الفترة جعلتني أراجع نفسي. أدركت أن الوصول لمستوى كبير يحتاج إلى الالتزام في الأيام التي لا أشعر فيها بالحماس، وليس فقط في الأيام التي أكون فيها متحمسًا.</p>
+        <p>ومن هنا بدأت أفكر بطريقة مختلفة: <strong>لا أريد أن أعتمد على الحماس، أريد أن أبني نظامًا يجعلني أستمر حتى عندما يكون الأمر صعبًا.</strong></p>
+      </div>
+    </div>
+
+    <div class="story-chapter reveal">
+      <div class="chapter-num">03</div>
+      <div class="chapter-content">
+        <h3>ما هدفي القادم؟</h3>
+        <p>هدفي القادم هو العودة بقوة، واستعادة مستواي البدني والفني، ثم إثبات نفسي في فريق رسمي والمنافسة على مكان أساسي.</p>
+        <p>أريد أن أطور نفسي كلاعب وسط ملعب ذكي وهجومي: أستلم ت
